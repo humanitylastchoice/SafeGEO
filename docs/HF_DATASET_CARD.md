@@ -149,7 +149,7 @@ are JSON-encoded strings and can be decoded with `json.loads`, or loaded through
 
 ## Humanity’s Last Choice
 
-![SafeGEO presented as an oral at EMNLP 2026, Room F9–10, Budapest, October 25, 2026](https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/s7BxsN4Xoe6v5iMhr3TYw.jpeg)
+<img src="https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/hU5nmsZyI0o12Nwl_8EMV.jpeg" alt="SafeGEO presented as an oral at EMNLP 2026, Room F9–10, Budapest, October 25, 2026: the speaker at the lectern, the Humanity’s Last Choice community slide and its QR code on the screen" width="480">
 
 SafeGEO comes from [Humanity’s Last Choice](https://humanitylastchoice.org), an open research
 community studying whether AI recommendations hold when the options’ pages are
@@ -157,8 +157,9 @@ edited to win the model. Its follow-up position paper proposes a common
 evaluation standard for GEO:
 [A Common Evaluation Standard for Generative Engine Optimization](https://huggingface.co/papers/2610.23541).
 
-If you have a system to evaluate, a domain to add or a question, open a
-discussion on this dataset or find us at [humanitylastchoice.org](https://humanitylastchoice.org).
+Join the community on [Discord](https://discord.gg/zqyCrYEyB7) and follow
+[Humanity’s Last Choice on Hugging Face](https://huggingface.co/humanitylastchoice):
+upcoming projects will open for collaboration there.
 
 ## License
 
