@@ -48,16 +48,24 @@ configs:
     data_files: [{split: test, path: diamond/controlled_documents/test-*.parquet}]
 ---
 
-# SafeGEO Dataset
+# SafeGEO
 
-Camera-ready: <https://qianfengwen.github.io/SafeGEO/static/SafeGEO.pdf> · arXiv: <https://arxiv.org/abs/2606.28356> · Project page: <https://qianfengwen.github.io/SafeGEO/> · Code: <https://github.com/QianfengWen/SafeGEO>
+[![EMNLP 2026 Oral](https://img.shields.io/badge/EMNLP_2026-Oral-A83630)](https://humanitylastchoice.org/research/papers/safegeo)
+[![arXiv](https://img.shields.io/badge/arXiv-2606.28356-1D1713)](https://arxiv.org/abs/2606.28356)
+[![Paper page](https://img.shields.io/badge/Hugging_Face-paper_page-1D1713)](https://huggingface.co/papers/2606.28356)
+[![Code](https://img.shields.io/badge/GitHub-humanitylastchoice%2FSafeGEO-1D1713?logo=github)](https://github.com/humanitylastchoice/SafeGEO)
+[![Humanity’s Last Choice](https://img.shields.io/badge/Humanity%E2%80%99s_Last_Choice-community-A83630)](https://humanitylastchoice.org)
 
-SafeGEO tests whether recommendation agents preserve utility-aligned decisions
-when seller-controlled web sources are rewritten with Generative Engine
+![600 recommendation scenarios across 6 product categories; 22 GEO attack variants; 3 manipulation mechanisms; 40,800 evaluation instances](https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/mAUGXtnKwlYSMszdwetMt.jpeg)
+
+SafeGEO tests whether recommendation agents still make the choice the user asked
+for when seller-controlled web sources are edited with Generative Engine
 Optimization (GEO) attacks. The full benchmark contains 600 recommendation base
 cases across six product verticals. Each case is expanded into 68 instances: 22
 attack packages applied separately to three sampled targets, plus two controls,
 for 40,800 instances total.
+
+![How a GEO attack reaches a recommendation: a user request, the agent's retrieved sources, an attack on one seller-controlled source, and the final ranking](https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/pIdtD6zKUF8L4fi9cISEO.jpeg)
 
 A fixed release seed samples three eligible non-ground-truth candidates per
 case without replacement. Candidate IDs identify the targets throughout the
@@ -67,9 +75,25 @@ and source packet use synthetic replacements.
 
 The attack library spans three manipulation loci (content, epistemic, and
 model-facing) and seven primitives. Full construction and schema documentation
-is available in the [GitHub data guide](https://github.com/QianfengWen/SafeGEO/blob/main/data/README.md),
-[attack taxonomy](https://github.com/QianfengWen/SafeGEO/blob/main/docs/ATTACK_TAXONOMY.md),
-and [datasheet](https://github.com/QianfengWen/SafeGEO/blob/main/docs/DATASHEET.md).
+is available in the [GitHub data guide](https://github.com/humanitylastchoice/SafeGEO/blob/main/data/README.md),
+[attack taxonomy](https://github.com/humanitylastchoice/SafeGEO/blob/main/docs/ATTACK_TAXONOMY.md),
+and [datasheet](https://github.com/humanitylastchoice/SafeGEO/blob/main/docs/DATASHEET.md).
+
+## Results at a glance
+
+![The strongest GEO attack moved an unsuitable product into the top three: 12.7% to 95.9% on Devstral Small 2 24B](https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/AeGd7S1xeB95ZqixL-pzX.jpeg)
+
+- Across eight realistic GEO strategies, an unsuitable product reached the top three in 73–91% of cases on four systems. With matched truthful edits of the same page, 3–13%.
+- The strongest attack moved Devstral Small 2 24B from 12.7% to 95.9%.
+- A structured evidence check for each candidate helped most (Qwen3.6 27B: 78.3% → 39.1%), but did not return to the 8.1% truthful baseline.
+
+Results from arXiv v2 (September 4, 2026).
+
+## The two-minute version
+
+<video src="https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/EIXNtVbHhRA_1xDsyVqw6.mp4" poster="https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/j0jkBlekg-W__cz9O7IQ0.jpeg" controls muted playsinline width="100%"></video>
+
+A family asks an assistant about baby monitors, one seller edits its page, and the ranking flips. The narrated version is on the [project page](https://humanitylastchoice.org/research/papers/safegeo).
 
 ## SafeGEO Diamond
 
@@ -80,7 +104,7 @@ attack packages and both controls.
 Attack selection makes Diamond a biased screening set; use the complete
 benchmark for population-level reporting. The exact cases, target assignments,
 and row counts are recorded in
-[`diamond/selection_manifest.json`](https://huggingface.co/datasets/wieeii/SafeGEO/blob/main/diamond/selection_manifest.json).
+[`diamond/selection_manifest.json`](https://huggingface.co/datasets/humanitylastchoice/SafeGEO/blob/main/diamond/selection_manifest.json).
 
 ## Loading
 
@@ -88,12 +112,12 @@ and row counts are recorded in
 from datasets import load_dataset
 
 # Full benchmark model inputs and hidden scoring labels.
-visible = load_dataset("wieeii/SafeGEO", "visible", split="test")
-labels = load_dataset("wieeii/SafeGEO", "labels", split="test")
+visible = load_dataset("humanitylastchoice/SafeGEO", "visible", split="test")
+labels = load_dataset("humanitylastchoice/SafeGEO", "labels", split="test")
 
 # Fast Diamond screening inputs and labels.
-diamond_visible = load_dataset("wieeii/SafeGEO", "diamond_visible", split="test")
-diamond_labels = load_dataset("wieeii/SafeGEO", "diamond_labels", split="test")
+diamond_visible = load_dataset("humanitylastchoice/SafeGEO", "diamond_visible", split="test")
+diamond_labels = load_dataset("humanitylastchoice/SafeGEO", "diamond_labels", split="test")
 ```
 
 The full dataset and Diamond each expose the same ten logical configs:
@@ -123,6 +147,19 @@ from evaluated models. Records are stored as Parquet; nested lists and mappings
 are JSON-encoded strings and can be decoded with `json.loads`, or loaded through
 `safegeo.io.read_records` from the GitHub repository.
 
+## Humanity’s Last Choice
+
+![SafeGEO presented as an oral at EMNLP 2026, Room F9–10, Budapest, October 25, 2026](https://cdn-uploads.huggingface.co/production/uploads/667465a45ad1ce3339324940/s7BxsN4Xoe6v5iMhr3TYw.jpeg)
+
+SafeGEO comes from [Humanity’s Last Choice](https://humanitylastchoice.org), an open research
+community studying whether AI recommendations hold when the options’ pages are
+edited to win the model. Its follow-up position paper proposes a common
+evaluation standard for GEO:
+[A Common Evaluation Standard for Generative Engine Optimization](https://huggingface.co/papers/2610.23541).
+
+If you have a system to evaluate, a domain to add or a question, open a
+discussion on this dataset or find us at [humanitylastchoice.org](https://humanitylastchoice.org).
+
 ## License
 
 The dataset is released under CC-BY-4.0. Code and scoring utilities are released
@@ -131,10 +168,10 @@ separately under Apache-2.0 in the GitHub repository.
 ## Citation
 
 ```bibtex
-@inproceedings{wen-etal-2026-safegeo,
+@article{wen2026safegeo,
   title   = {SafeGEO: Understanding Generative Engine Optimization Risks in Recommendation Agents},
   author  = {Wen, Qianfeng and Liu, Yifan Simon and Liu, Xin and Jiao, Difan and Yang, Blair and Wu, Junda and Tang, Zhenwei},
-  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
+  journal = {arXiv preprint arXiv:2606.28356},
   year    = {2026}
 }
 ```
